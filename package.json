@@ -1,0 +1,36 @@
+{
+  "name": "bitwise-core",
+  "version": "1.0.0",
+  "description": "Bitwise Corporation's discord bot",
+  "main": "build/index.js",
+  "scripts": {
+    "getDependencies": "yarn install",
+    "testJs": "node test/test.js",
+    "testTs": "yarn tsx test/test.ts",
+    "build": "yarn getDependencies && yarn check && tsc -p .",
+    "tsStart": "yarn getDependencies && yarn tsx src/index.ts",
+    "jsStart": "yarn getDependencies && node build/index.js",
+    "checkCode": "tsc --noEmit --skipLibCheck"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Bitwise-re/BitwiseCore"
+  },
+  "type": "module",
+  "author": "Bitwise Corporation",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/Bitwise-re/BitwiseCore/issues"
+  },
+  "homepage": "https://github.com/Bitwise-re/BitwiseCore#readme",
+  "dependencies": {
+    "discord.js": "^14.14.1",
+    "prompt": "^1.3.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.11.20",
+    "@types/request": "^2.48.12",
+    "tsx": "^4.19.2",
+    "typescript": "^5.3.3"
+  }
+}
