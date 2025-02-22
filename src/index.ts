@@ -1,4 +1,4 @@
-import * as readline from 'readline/promises';
+import * as readline from "readline/promises";
 
 const rl = readline.createInterface({
     input: process.stdin,
@@ -8,6 +8,6 @@ const rl = readline.createInterface({
 console.log("Hello World");
 
 while (true) {
-    const answer = await rl.question('');
+    const answer = await rl.question("");
     console.log(answer);
 }
