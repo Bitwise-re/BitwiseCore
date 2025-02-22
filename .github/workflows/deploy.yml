@@ -1,0 +1,41 @@
+name: Upload to Pi
+on:
+  push:
+    branches:
+      - deploy
+jobs:
+  deploy:
+    name: Deploy
+    runs-on: ubuntu-latest
+    env:
+      BITWISE_CORE_PATH: /var/www/bitwise-core/
+    steps:
+      - uses: actions/checkout@v4
+      - name: stop discord bot
+        uses: garygrossgarten/github-action-ssh@release
+        with:
+          command: /home/git/custom_scripts/discord-bot.stop
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USERNAME }}
+          port: ${{ secrets.SSH_PORT }}
+          passphrase: ${{ secrets.SSH_PASSPHRASE }}
+          privateKey: ${{ secrets.SSH_KEY}}
+      - name: Deploy with SCP
+        uses: appleboy/scp-action@v0.1.7
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USERNAME }}
+          port: ${{ secrets.SSH_PORT }}
+          key: ${{ secrets.SSH_KEY }}
+          passphrase: ${{ secrets.SSH_PASSPHRASE }}
+          source: "./*"
+          target: "$BITWISE_CORE_PATH/build"
+      - name: move root files to project's root and start discord bot
+        uses: garygrossgarten/github-action-ssh@release
+        with:
+          command: mv $BITWISE_CORE_PATH/build/root/* $BITWISE_CORE_PATH ; rm -r $BITWISE_CORE_PATH/build/root/ ; /home/git/custom_scripts/discord-bot.run
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USERNAME }}
+          port: ${{ secrets.SSH_PORT }}
+          passphrase: ${{ secrets.SSH_PASSPHRASE }}
+          privateKey: ${{ secrets.SSH_KEY}}
